@@ -71,7 +71,7 @@ def main():
     parser = argparse.ArgumentParser(description="Example script that receives arguments from the console")
 
     parser.add_argument('pathoriginal', type=str, help='The original folder path')
-    parser.add_argument('pathclone', type=str, help='The clone folder path')
+    parser.add_argument('pathreplica', type=str, help='The replica folder path')
     parser.add_argument('--synctime', type=int, default=30, help='the time of sync')
     parser.add_argument('--logfilepath', type=str, default='sync.log', help='the place where u can see creation copy or removal')
 
@@ -86,7 +86,7 @@ def main():
             timecount=synctime
             #sleep for X time and then sync again
             time.sleep(timecount)
-            sync_folders(args.pathoriginal,args.pathclone)
+            sync_folders(args.pathoriginal,args.pathreplica)
             logger.info(f"time refreshed")
                 
     except KeyboardInterrupt:
