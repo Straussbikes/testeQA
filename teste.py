@@ -63,59 +63,27 @@ def sync_folders(source_folder, replica_folder):
             print(f"File deleted: {relative_path}")
 def main():
 
-    # Create a custom logger
-    logger = logging.getLogger(__name__)
-    logger.setLevel(logging.INFO)
-
-    # Create handlers
-    file_handler = logging.FileHandler('sync.log')
-    console_handler = logging.StreamHandler()
-
-    # Set the level for each handler
-    file_handler.setLevel(logging.INFO)
-    console_handler.setLevel(logging.INFO)
-
-    # Create a formatter and set it for each handler
-    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-    file_handler.setFormatter(formatter)
-    console_handler.setFormatter(formatter)
-
-    # Add the handlers to the logger
-    logger.addHandler(file_handler)
-    logger.addHandler(console_handler)
-
+  
     parser = argparse.ArgumentParser(description="Example script that receives arguments from the console")
 
     parser.add_argument('pathoriginal', type=str, help='The original folder path')
     parser.add_argument('pathclone', type=str, help='The clone folder path')
-    parser.add_argument('--synctime', type=int, default=60, help='the time of sync')
+    parser.add_argument('--synctime', type=int, default=30, help='the time of sync')
     parser.add_argument('--logfilepath', type=str, default='sync.log', help='the place where u can see creation copy or removal')
 
     args = parser.parse_args()
     synctime=args.synctime
-    timecount=synctime
-    console_handler = logging.StreamHandler()
-    console_handler.setLevel(logging.INFO)
-    console_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-    console_handler.setFormatter(console_formatter)
-    logging.getLogger().addHandler(console_handler)
 
-    logger.info("Starting the sync process")
-
+    logger.info("Starting the sync process")   
     try:
-        while True:
-            sync_folders(args.pathoriginal, args.pathclone)
-            
+        while(True):
+            timecount=synctime
+            if(timecount==0):
+                sync_folders(args.pathoriginal,args.pathclone)
+                logger.info(f"time refreshed")
+                timecount=timecount-1
     except KeyboardInterrupt:
         logger.info("Sync process interrupted by user")
-
-    while(True):
-        time=synctime
-        if(timecount==0):
-            sync_folders(args.pathoriginal,args.pathclone)
-            logger.info("time refreshed")
-            time=time-1
-        
 
 if __name__ == "__main__":
     main()
